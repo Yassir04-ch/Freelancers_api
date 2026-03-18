@@ -1,14 +1,25 @@
-FROM footevent-backend:latest
+FROM php:8.2-fpm
 
 RUN apt-get update && apt-get install -y \
-    git unzip zip libzip-dev procps \
-    && docker-php-ext-install pdo pdo_mysql mysqli zip \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+    git \
+    curl \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    zip \
+    unzip \
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
-RUN a2enmod rewrite
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-RUN sed -i 's|DocumentRoot.*|DocumentRoot /var/www/html/wallet_api/public|g' /etc/apache2/sites-available/000-default.conf
+WORKDIR /var/www
 
-RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
+COPY . .
 
-WORKDIR /var/www/html
+RUN composer install --no-interaction --optimize-autoloader
+
+RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+
+EXPOSE 9000
+
+CMD ["php-fpm"]
