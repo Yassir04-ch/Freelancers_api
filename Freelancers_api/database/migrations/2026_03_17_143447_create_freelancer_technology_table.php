@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('freelancer_id')->constrained('freelancers')->onDelete('cascade');
             $table->foreignId('technology_id')->constrained('technologies')->onDelete('cascade');
-            $table->primary(['freelancer_id', 'technology_id']);
+            $table->unique(['freelancer_id', 'technology_id']);
         });
     }
 

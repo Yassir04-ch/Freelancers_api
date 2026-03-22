@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('mission_id')->constrained('missions')->onDelete('cascade');
             $table->decimal('rating', 2, 1);
             $table->text('comment')->nullable();
-            $table->enum('reviewer_type', ['freelancer', 'client']);
+            $table->enum('reviewer_type',['freelancer', 'client']);
             $table->timestamps();      
         });
     }

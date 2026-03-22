@@ -1,25 +1,20 @@
-FROM php:8.2-fpm
+FROM php:8.4-apache
 
 RUN apt-get update && apt-get install -y \
     git \
-    curl \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    zip \
     unzip \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+    zip \
+    libzip-dev \
+    procps \
+    && docker-php-ext-install pdo pdo_mysql mysqli zip \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN a2enmod rewrite
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-WORKDIR /var/www
+RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/Freelancers_api/public|g' /etc/apache2/sites-available/000-default.conf
 
-COPY . .
+RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 
-RUN composer install --no-interaction --optimize-autoloader
-
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
-
-EXPOSE 9000
-
-CMD ["php-fpm"]
+WORKDIR /var/www/html

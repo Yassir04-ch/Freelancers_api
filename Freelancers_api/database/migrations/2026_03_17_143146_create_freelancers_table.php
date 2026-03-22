@@ -16,7 +16,7 @@ return new class extends Migration
              $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->float('rating')->default(0);
             $table->string('portfolio')->nullable();
-            $table->float('tarif')->default(0);
+            $table->float('price')->default(0);
             $table->boolean('availability')->default(true);
             $table->timestamps();
         });

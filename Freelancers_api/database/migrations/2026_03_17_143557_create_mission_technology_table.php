@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('mission_id')->constrained('missions')->onDelete('cascade');
             $table->foreignId('technology_id')->constrained('technologies')->onDelete('cascade');
-            $table->primary(['mission_id', 'technology_id']);
+            $table->unique(['mission_id', 'technology_id']);
         });
     }
 
