@@ -12,9 +12,13 @@ class Notification extends Model
     protected $fillable = ['client_id','freelancer_id','title','message' ];
  
   
-     public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+        public function client()
+        {
+            return $this->belongsTo(Client::class);
+        }  
+        public function freelancer()
+        {
+            return $this->belongsTo(Freelancer::class);
+        }
  
     }
