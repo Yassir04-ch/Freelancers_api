@@ -17,7 +17,7 @@ return new class extends Migration
             $table->float('rating')->default(0);
             $table->string('portfolio')->nullable();
             $table->float('price')->default(0);
-            $table->boolean('availability')->default(true);
+            $table->string('availability')->default('available');
             $table->timestamps();
         });
     }

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
-
-use App\Models\Candidature;
+namespace App\Http\Controllers\Api;
+use App\Http\Controllers\Controller;
+use App\Models\Client;
 use Illuminate\Http\Request;
 
-class CandidatureController extends Controller
+class ClientController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,7 +26,7 @@ class CandidatureController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Candidature $candidature)
+    public function show(Client $client)
     {
         //
     }
@@ -34,7 +34,7 @@ class CandidatureController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Candidature $candidature)
+    public function update(Request $request, Client $client)
     {
         //
     }
@@ -42,7 +42,7 @@ class CandidatureController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Candidature $candidature)
+    public function destroy(Client $client)
     {
         //
     }

@@ -9,7 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Illuminate\Http\JsonResponse;
 
  class AuthController extends Controller
     {
@@ -25,30 +25,31 @@ use Symfony\Component\HttpFoundation\JsonResponse;
         /**
          * Store a newly created resource in storage.
          */
-        public function store(RegisterRequest $request): JsonResponse
+        public function register(RegisterRequest $request): JsonResponse
         {
             $validated = $request->validated();
-            $validated['password'] = bcrypt($validated['password']);
-
+            $validated['password'] = Hash::make($validated['password']);
             $user = User::create($validated);
-           if ($user->isFreelancer()) {
+
+            $user->load('role');
+           if ($user->role->name == "freelancer") {
              Freelancer::create([
                 'user_id'      => $user->id,
                 'rating'       => 0,
-                'portfolio'    => $validated->portfolio,
-                'price'        => $validated->price ,
+                'portfolio'    => $validated['portfolio'] ,
+                'price'        => $validated['price'] ,
                 'availability' => 'available',
             ]);
         } 
-        elseif ($user->isClient()) {
+        elseif ($user->role->name == "client") {
             Client::create([
                 'user_id'     => $user->id,
-                'entreprise'  => $validated->entreprise ,
-                'description' => $validated->description,
+                'entreprise'  => $validated['entreprise'] ,
+                'description' => $validated['description'],
             ]);
         }
         
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $token = $user->createToken('user_token')->plainTextToken;
  
         return response()->json([
             'message' => 'Inscription réussie',
@@ -70,8 +71,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
             ], 401);
         }
  
- 
-         $token = $user->createToken('auth_token')->plainTextToken;
+         $user->load('role');
+
+         $token = $user->createToken('user_token')->plainTextToken;
  
          return response()->json([
             'success' => true,
@@ -92,17 +94,22 @@ use Symfony\Component\HttpFoundation\JsonResponse;
         ],200);
     }
 
-    public function profile(Request $request){
+  public function profile(Request $request)
+{
+    $user = $request->user();
 
-        $user = $request->user();
-
-        return response()->json([
-            "success" => true,
-            "message" => "Profil utilisateur récupéré.",
-            "data" => [
-                "user" => $user
-            ]
-        ], 200);
+    if ($user->role->name == "freelancer") {
+        $user->load('freelancer');
+    } elseif ($user->role->name == "client") {
+        $user->load('client'); 
     }
+    return response()->json([
+        "success" => true,
+        "message" => "Profil utilisateur récupéré.",
+        "data" => [
+            "user" => $user
+        ]
+    ], 200);
+}
         
     }

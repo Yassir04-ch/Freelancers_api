@@ -23,6 +23,7 @@ class User extends Authenticatable
         'lastname',
         'email',
         'password',
+        'role_id',
         'is_active'
     ];
 
@@ -49,6 +50,11 @@ class User extends Authenticatable
         ];
     }
 
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
      public function freelancer()
     {
         return $this->hasOne(Freelancer::class);
@@ -62,22 +68,6 @@ class User extends Authenticatable
     public function notifications()
     {
         return $this->hasMany(Notification::class);
-    }
-
-
-    public function isFreelancer(): bool
-    {
-        return $this->role === 'freelancer';
-    }
-
-    public function isClient(): bool
-    {
-        return $this->role === 'client';
-    }
-
-    public function isAdmin(): bool
-    {
-        return $this->role === 'admin';
     }
     
 }

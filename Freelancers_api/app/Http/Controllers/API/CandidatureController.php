@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
-
-use App\Models\Experience;
+namespace App\Http\Controllers\Api;
+use App\Http\Controllers\Controller;
+use App\Models\Candidate;
+use App\Models\Candidature;
 use Illuminate\Http\Request;
 
-class ExperienceController extends Controller
+class CandidatureController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,7 +27,7 @@ class ExperienceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Experience $experience)
+    public function show(Candidate $candidature)
     {
         //
     }
@@ -34,7 +35,7 @@ class ExperienceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Experience $experience)
+    public function update(Request $request, Candidate $candidature)
     {
         //
     }
@@ -42,7 +43,7 @@ class ExperienceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Experience $experience)
+    public function destroy(Candidate $candidature)
     {
         //
     }
