@@ -24,10 +24,10 @@ class MissionRequest extends FormRequest
     {
         return [
             'category_id' => "required|exists:categories,id",
-            'title'       => "required|string|max:200",
+            'titre'       => "required|string",
             'description' => "required|string",
             'budget'      => "required|numeric|min:0",
-            'duration'    => "required|string|max:100",
+            'duration'    => "required|integer|min:1",
             'status'      => 'nullable|string',
 
         ];

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Mission extends Model
 {
-     protected $fillable = ['client_id','category_id','title','description','budget','duration','status',
+     protected $fillable = ['client_id','category_id','titre','description','budget','duration','status',
     ];
  
  

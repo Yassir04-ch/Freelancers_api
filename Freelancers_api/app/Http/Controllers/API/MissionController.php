@@ -32,7 +32,7 @@ class MissionController extends Controller
         $mission = Mission::create([
             'client_id'   => $user->client->id,
             'category_id' => $validated['category_id'],
-            'title'       => $validated['title'],
+            'titre'       => $validated['titre'],
             'description' => $validated['description'],
             'budget'      => $validated['budget'],
             'duration'    => $validated['duration'],
@@ -41,7 +41,7 @@ class MissionController extends Controller
  
         return response()->json([
             'success' => true,
-            'message' => 'créée avec succès.',
+            'message' => 'crée avec succès.',
             'data'    => $mission->load(['client.user', 'category']),
         ], 201);
     }
@@ -51,7 +51,10 @@ class MissionController extends Controller
      */
     public function show(Mission $mission)
     {
-        //
+        return response()->json([
+            'success' => true,
+            'data' => $mission->load(['client.user', 'category']),
+        ]);
     }
 
     /**
