@@ -60,9 +60,9 @@ class MissionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Mission $mission)
+    public function update(MissionRequest $request, Mission $mission)
     {
-          $user = $request->user();
+        $user = $request->user();
         $validated =   $request->validated();
  
          if ($mission->client_id !== $user->client->id) {
@@ -75,7 +75,7 @@ class MissionController extends Controller
          if ($mission->status == "en_cours" || $mission->status == "terminee") {
             return response()->json([
                 'success' => false,
-                'message' => 'Impossible de modifier une mission en cours ou terminée.',
+                'message' => 'impossible de modifier une mission en cours ou terminee.',
             ], 422);
         }
  
@@ -105,7 +105,7 @@ class MissionController extends Controller
         if ($mission->status === "en_cours" ) {
             return response()->json([
                 'success' => false,
-                'message' => 'Impossible d\'annuler une mission en cours.',
+                'message' => 'Impossible    annuler une mission en cours.',
             ], 422);
         }
  

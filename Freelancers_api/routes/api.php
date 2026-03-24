@@ -10,6 +10,7 @@ Route::post('/login',    [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/missions',[MissionController::class, 'store']);
     Route::put('/missions/{mission}',[MissionController::class, 'update']);
+    Route::get('/missions/{mission}',[MissionController::class, 'show']);
     Route::delete('/missions/{mission}',[MissionController::class, 'destroy']);
     Route::get('/profile', [AuthController::class, 'profile']);
     Route::post('/logout', [AuthController::class, 'logout']);
