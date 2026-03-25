@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class MissionRequest extends FormRequest
+class CondidatureRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,12 +23,10 @@ class MissionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'category_id' => "required|exists:categories,id",
-            'titre'       => "required|string",
-            'description' => "required|string",
-            'budget'      => "required|numeric|min:0",
-            'duration'    => "required|integer|min:1",
-            'status'      => 'nullable|string',
+             'motivation_letter' => 'required|string|max:1000',
+             'freelancer_id' => 'required|integer',
+             'mission_id'=>'required|integer',
+             'price'=> 'required|numeric',
         ];
     }
 }

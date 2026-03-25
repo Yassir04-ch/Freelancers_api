@@ -22,7 +22,7 @@ class Mission extends Model
  
     public function candidates()
     {
-        return $this->hasMany(Candidate::class);
+        return $this->hasMany(Candidature::class);
     }
  
  

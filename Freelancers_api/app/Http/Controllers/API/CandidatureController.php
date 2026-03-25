@@ -27,7 +27,7 @@ class CandidatureController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Candidate $candidature)
+    public function show(Candidature $candidature)
     {
         //
     }
@@ -35,7 +35,7 @@ class CandidatureController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Candidate $candidature)
+    public function update(Request $request, Candidature $candidature)
     {
         //
     }
@@ -43,7 +43,7 @@ class CandidatureController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Candidate $candidature)
+    public function destroy(Candidature $candidature)
     {
         //
     }
