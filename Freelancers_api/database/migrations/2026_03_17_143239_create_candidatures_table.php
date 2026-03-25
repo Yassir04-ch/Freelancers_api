@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('candidates', function (Blueprint $table) {
+        Schema::create('candidatures', function (Blueprint $table) {
             $table->id();
             $table->foreignId('freelancer_id')->constrained('freelancers')->onDelete('cascade');
             $table->foreignId('mission_id')->constrained('missions')->onDelete('cascade');
             $table->text('motivation_letter');
             $table->decimal('price', 10, 2);
-            $table->enum('status', ['pending','accepted','refused','waiting'])->default('pending');
+            $table->enum('status', ['pending','accepted','refused'])->default('pending');
              $table->timestamps();
         });
     }

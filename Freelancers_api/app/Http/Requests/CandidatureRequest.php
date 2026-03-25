@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CondidatureRequest extends FormRequest
+class CandidatureRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,6 @@ class CondidatureRequest extends FormRequest
     {
         return [
              'motivation_letter' => 'required|string|max:1000',
-             'freelancer_id' => 'required|integer',
              'mission_id'=>'required|integer',
              'price'=> 'required|numeric',
         ];

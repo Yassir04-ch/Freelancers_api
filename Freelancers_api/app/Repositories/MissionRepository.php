@@ -13,9 +13,8 @@ class MissionRepository
 
     public function findMission($id)
     {
-        $mission = Mission::find($id);
-        $mission->load(['client.user', 'category']);
-        return $mission;
+        $mission = Mission::with(['client.user', 'category'])->find($id);
+         return $mission;
     }
 
     public function create(array $data)

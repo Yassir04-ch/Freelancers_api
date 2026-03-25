@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class MissionController extends Controller
 {
-    protected $service;
+    private $service;
 
     public function __construct(MissionService $service)
     {
@@ -22,7 +22,7 @@ class MissionController extends Controller
         return response()->json([
             'success' => true,
             'data'    => $this->service->listMissions()
-        ]);
+        ],200);
     }
 
     public function store(MissionRequest $request)

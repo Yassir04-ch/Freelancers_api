@@ -59,9 +59,20 @@ class MissionService
         }
 
         $missionup = $this->repository->update($mission, $validated);
-        return [$missionup,$message,$code];
-        
+        return [$missionup,$message,$code];     
     }
 
-    
+    public function cancelMission($mission, $user)
+    {
+        if ($mission->client_id !== $user->client->id) {
+            abort(403, 'non autorisee.');
+        }
+
+        if ($mission->status === "en_cours") {
+            abort(422, 'impossible de modifier une mission en cours ou terminee.');
+        }
+
+        $missionup = $this->repository->update($mission, ['status' => "annulee"]);
+        return $missionup;
+    }
 }

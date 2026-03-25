@@ -5,15 +5,14 @@ use App\Models\Candidature;
 class CandidatureRepository
 {
    public function candidatures(){
-        $candidatures = Candidature::with(['freelancer.user','mission']);
+        $candidatures = Candidature::with(['freelancer.user','mission'])->get();
         return $candidatures;
         
     }
 
    public  function findCandidature($id){
-       $candidature = Candidature::find($id);
-       $candidature->load(['freelancer.user','mission']);
-       return $candidature;
+       $candidature = Candidature::with(['freelancer.user','mission'])->find($id);
+        return $candidature;
     }
 
     public function create(array $data){
@@ -24,6 +23,11 @@ class CandidatureRepository
     public function update(Candidature $condidature , array $data){
         $condidature->update($data);
         return $condidature;
+    }
+
+    public function delete(Candidature $candidature): void
+    {
+        $candidature->delete();
     }
 
 }
