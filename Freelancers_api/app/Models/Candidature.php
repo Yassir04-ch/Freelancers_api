@@ -7,11 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Candidature extends Model
 {
-      use HasFactory;
- 
-    const STATUS_PENDING  = 'pending';   
-    const STATUS_ACCEPTED = 'accepted';  
-    const STATUS_REJECTED = 'rejected';  
+      use HasFactory; 
  
     protected $fillable = ['freelancer_id','mission_id','motivation_letter','price','status', ];
  
