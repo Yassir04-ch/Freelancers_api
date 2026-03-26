@@ -46,33 +46,29 @@ class MissionService
 
     public function updateMission($validated, $mission, $user)
     {
-        $message = "";
-        $code = 200;
         if ($mission->client_id !== $user->client->id) {
-           $message = "non autorisée";
-           $code = 403;
+            return ['success'=>false,'message'=>"non autorisée",'code'=>403]; 
         }
 
          if ($mission->status == "en_cours" || $mission->status == "terminee") {
-             $message = "impossible de modifier une mission en cours ou terminee";
-             $code = 422;
-        }
+            return ['success'=>false,'message'=>"impossible de modifier une mission en cours ou terminee",'code'=>422]; 
+         }
 
-        $missionup = $this->repository->update($mission, $validated);
-        return [$missionup,$message,$code];     
+        $this->repository->update($mission, $validated);
+        return ['success'=>true,'message'=> "mission modifier avec success",'code'=>200];     
     }
 
     public function cancelMission($mission, $user)
     {
         if ($mission->client_id !== $user->client->id) {
-            abort(403, 'non autorisee.');
+            return ['success'=>false,'message'=>"non autorisée",'code'=>403]; 
         }
 
         if ($mission->status === "en_cours") {
-            abort(422, 'impossible de modifier une mission en cours ou terminee.');
+            return ['success'=>false,'message'=>"impossible de modifier une mission en cours ou terminee",'code'=>422]; 
         }
 
-        $missionup = $this->repository->update($mission, ['status' => "annulee"]);
-        return $missionup;
+        $this->repository->update($mission, ['status' => "annulee"]);
+        return ['success'=>true,'message'=>"mission est annulee",'code'=>422]; 
     }
 }

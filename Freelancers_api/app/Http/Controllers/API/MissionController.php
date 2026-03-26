@@ -49,22 +49,21 @@ class MissionController extends Controller
     {
         $validated = $request->validated();
 
-        $mission = $this->service->updateMission($validated, $mission, $request->user());
+        $result = $this->service->updateMission($validated, $mission, $request->user());
 
         return response()->json([
-            'success' => true,
-            'message' => 'Mission mise à jour.',
-            'data'    => $mission,
-        ]);
+            'success' => $result['success'],
+            'message' => $result['message'],
+        ],$result['code']);
     }
 
     public function destroy(Request $request, Mission $mission)
     {
-        $this->service->cancelMission($mission, $request->user());
+        $result = $this->service->cancelMission($mission, $request->user());
 
         return response()->json([
-            'success' => true,
-            'message' => 'Mission annulée.',
-        ]);
+            'success' => $result['success'],
+            'message' => $result['message'],
+        ],$result['code']);
     }
 }
