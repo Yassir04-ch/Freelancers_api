@@ -19,7 +19,6 @@ return new class extends Migration
             $table->text('description');
             $table->decimal('budget', 10, 2);
             $table->string('duration'); 
-            $table->enum('type', ['web','mobile','desktop','fullstack','devops','uiux']);
             $table->enum('status', ['ouverte','en_cours','terminee','annulee'])->default('ouverte');
             $table->timestamps();        });
     }
