@@ -32,7 +32,7 @@ class CandidatureService{
         
         $candida = Candidature::where('mission_id',$validated['mission_id'])->where('freelancer_id',$user->freelancer->id)->first();
          if ($candida) {
-            return ['success' => false, 'message' => 'Vous avez déja postulé', 'code' => 422];
+            return ['success' => false, 'message' => 'vous avez déja postulé', 'code' => 422];
         }
 
         $data =[
@@ -50,14 +50,14 @@ class CandidatureService{
 
     public function acceptCandidature($candidature,$user){
 
-    if (!$user->role->name != 'client' || $candidature->mission->client_id != $user->client->id) {
+    if ($user->role->name != 'client' || $candidature->mission->client_id != $user->client->id) {
             return ['success' => false, 'message' => 'action non autorisée.', 'code' => 403];
        }
 
        $candidature->update(['status'=>'accepted']);
        $candidature->mission->update(['status'=>'en_cours']);
 
-      return ['message' => 'accepter le candidature avec success', 'code' => 200];
+      return ['success' => true,'message' => 'accepter le candidature avec', 'code' => 200];
      }
 
      public function refuserCandidature($candidature,$user){
@@ -65,9 +65,13 @@ class CandidatureService{
         if (!$user->role->name == 'client' || $candidature->mission->client_id !== $user->client->id) {
               return ['success' => false, 'message' => 'action non autorisée.', 'code' => 403];
         }
+
+        if($candidature->status == 'accepted'){
+              return ['success' => false, 'message' => 'impossible refuser une candidate accepted', 'code' => 422];
+        }
             $candidature->update(['status'=>'refused']);
 
-          return ['message' => 'refuser le candidature avec success', 'code' => 200];
+          return ['success' => true,'message' => 'refuser le candidature avec success', 'code' => 200];
     }
 
     public function updateCandidature($validated,$candidature,$user){
@@ -96,7 +100,7 @@ class CandidatureService{
  
         $this->repository->delete($candidature);
 
-        return ['success' => true, 'message' => 'Candidature retirée.', 'code' => 200];
+        return ['success' => true, 'message' => 'candidature retirée.', 'code' => 200];
     }
 
 
