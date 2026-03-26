@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Freelancer;
 use App\Models\Mission;
+use App\Models\Notification;
 use App\Repositories\MissionRepository;
 
 class MissionService
@@ -40,6 +42,16 @@ class MissionService
         ];
 
         $mission = $this->repository->create($data);
+
+        $freelacers = Freelancer::all();
+        foreach($freelacers as $freelancer){
+            Notification::create([
+              'client_id'=>$user->client->id,
+              'freelancer_id'=> $freelancer->id,
+              'title'=> 'nouvele mission',
+              'message'=> 'une nouvelle mission a été publiée'.$mission->titre
+          ]);
+        }
         return $mission;
 
     }

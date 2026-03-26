@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Candidature;
+use App\Models\Notification;
 use App\Repositories\CandidatureRepository;
 
 class CandidatureService{
@@ -44,6 +45,14 @@ class CandidatureService{
         ];
 
         $candidature = $this->repository->create($data);
+
+        Notification::create([
+            'freelancer_id'=>$user->freelancer->id,
+            'client_id'=> $candidature->mission->client->id,
+            'title'=> 'nouvele condidature',
+            'message'=> 'Nouvelle candidature dans votre mission',
+        ]);
+
         $candidature->load(['freelancer.user','mission']);
             return ['success' => true, 'message' => 'condidature creer avec success', 'code' => 201];
     }
@@ -56,8 +65,14 @@ class CandidatureService{
 
        $candidature->update(['status'=>'accepted']);
        $candidature->mission->update(['status'=>'en_cours']);
+         Notification::create([
+            'client_id'=>$user->client->id,
+            'freelancer_id'=> $candidature->mission->user->freelancer->id,
+            'title'=> 'condidature accepter',
+            'message'=> 'votre candidature a été accepter',
+          ]);
 
-      return ['success' => true,'message' => 'accepter le candidature avec', 'code' => 200];
+      return ['success' => true,'message' => 'accepter le candidature avec success', 'code' => 200];
      }
 
      public function refuserCandidature($candidature,$user){
@@ -70,6 +85,12 @@ class CandidatureService{
               return ['success' => false, 'message' => 'impossible refuser une candidate accepted', 'code' => 422];
         }
             $candidature->update(['status'=>'refused']);
+              Notification::create([
+                'client_id'=>$user->client->id,
+                'freelancer_id'=> $candidature->mission->user->freelancer->id,
+                'title'=> 'condidature refuser',
+                'message'=> 'votre candidature a été refuser',
+             ]);
 
           return ['success' => true,'message' => 'refuser le candidature avec success', 'code' => 200];
     }
