@@ -104,8 +104,8 @@ class CandidatureService{
             return ['success' => false, 'message' => 'impossible de modifier une candidature acceptée ou refusée.', 'code' => 422];
         }
       
-      $candidature = $this->repository->update($candidature , $validated);
-        return ['success' => true, 'message' => 'candidature mise à jour.', 'code' => 200];
+       $this->repository->update($candidature , $validated);
+        return ['success' => true, 'message' => 'candidature a été modifier avec success.', 'code' => 200];
     }
 
      public function deleteCandidature( $candidature, $user): array

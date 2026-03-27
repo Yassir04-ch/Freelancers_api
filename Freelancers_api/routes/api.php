@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CandidatureController;
+use App\Http\Controllers\Api\ExperienceController;
 use App\Http\Controllers\Api\MissionController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,5 +23,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/candidatures/{candidature}/accept',[CandidatureController::class, 'accept']);
     Route::put('/candidatures/{candidature}/refuse',[CandidatureController::class, 'refuse']);
     Route::delete('/candidatures/{candidature}',[CandidatureController::class, 'destroy']);
+
+    Route::post('/experiences/{freelancer}',[ExperienceController::class, 'index']);
+    Route::post('/experiences',[ExperienceController::class, 'store']);
+    Route::delete('/experiences/{experiences}',[ExperienceController::class, 'destroy']);
+
 });
  

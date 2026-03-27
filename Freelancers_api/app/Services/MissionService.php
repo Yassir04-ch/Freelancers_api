@@ -67,7 +67,7 @@ class MissionService
          }
 
         $this->repository->update($mission, $validated);
-        return ['success'=>true,'message'=> "mission modifier avec success",'code'=>200];     
+        return ['success'=>true,'message'=> "mission a été modifier avec success",'code'=>200];     
     }
 
     public function cancelMission($mission, $user)

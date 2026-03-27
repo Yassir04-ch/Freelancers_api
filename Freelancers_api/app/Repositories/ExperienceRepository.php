@@ -10,7 +10,16 @@ class ExperienceRepository{
 
     public function createExperience(array $data){
       $experience = Experience::create($data);
+      $experience->load('freelancer.user');
       return $experience;
+    }
+
+     public function deleteExperience($experience){
+      $experience->delete($experience);
+    }
+
+    public function updateExperience($validated,$experience){
+       $experience->update($validated);
     }
 
 }
