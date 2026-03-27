@@ -24,9 +24,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/candidatures/{candidature}/refuse',[CandidatureController::class, 'refuse']);
     Route::delete('/candidatures/{candidature}',[CandidatureController::class, 'destroy']);
 
-    Route::post('/experiences/{freelancer}',[ExperienceController::class, 'index']);
+    Route::get('/experiences/{freelancer}',[ExperienceController::class, 'index']);
     Route::post('/experiences',[ExperienceController::class, 'store']);
-    Route::delete('/experiences/{experiences}',[ExperienceController::class, 'destroy']);
+    Route::put('/experiences/{experience}',[ExperienceController::class, 'update']);
+    Route::delete('/experiences/{experience}',[ExperienceController::class, 'destroy']);
 
-});
+}); 
  
