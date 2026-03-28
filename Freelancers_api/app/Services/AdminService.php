@@ -1,7 +1,9 @@
 <?php
 namespace App\Services;
 use App\Http\Repositories\AdminRepository;
+use App\Models\Mission;
 use App\Models\User;
+
 
 class AdminService{
     private $repository;
@@ -11,14 +13,38 @@ class AdminService{
         $this->repository = $repository;
     }
 
-    public function getAllUsers()
+    public function users()
     {
         $users = $this->repository->users();
         return $users;
     }
 
-        public function activerUser(User $user)
+
+      public function dashboard($admin)
     {
+
+        if($admin->role->name != 'admin'){
+             return response()->json([
+                    'success' => false,
+                    'message' => 'action non autorisé.',
+                ], 403);
+        }
+
+        $users =  $this->repository->statUsers();
+        $missions = $this->repository->statMission();
+        $condidatures =  $this->repository->statiCandidatures();
+        return ['users'=>$users,'missions'=>$missions,'candidatures' =>$condidatures];
+    }
+
+        public function activerUser($admin, User $user)
+    {
+
+      if($admin->role->name != 'admin'){
+             return response()->json([
+                    'success' => false,
+                    'message' => 'action non autorisé.',
+                ], 403);
+        }
         if ($user->is_active) {
             return ['success' => false, 'message' =>'Compte est active', 'code' => 422];
         }
@@ -27,8 +53,14 @@ class AdminService{
         return ['success' => true, 'message' => "compte est activé", 'code' => 200];
     }
  
-    public function desactiverUser(User $user)
+    public function desactiverUser($admin, User $user)
     {
+     if($admin->role->name != 'admin'){
+             return response()->json([
+                    'success' => false,
+                    'message' => 'action non autorisé.',
+                ], 403);
+        }
  
         if (!$user->is_active) {
             return ['success' => false, 'message' => 'Compte dejà désactivé', 'code' => 422];
@@ -38,29 +70,33 @@ class AdminService{
         return ['success' => true, 'message' => 'Compte est désactivé','code' => 200];
     }
  
-    public function deleteUser(User $user)
+    public function deleteUser($admin, User $user)
     {
+        if($admin->role->name != 'admin'){
+             return response()->json([
+                    'success' => false,
+                    'message' => 'action non autorisé.',
+                ], 403);
+        }
         $this->repository->deletUser($user);
         return ['success' => true, 'message' => 'user est supprimé', 'code' => 200];
     }
 
-     public function getAllMissions()
+     public function missions()
     {
         return $this->repository->getAllMissions();
     }
  
-    public function moderateMission(Mission      $mission): array
+    public function deleteMission($admin, Mission $mission)
     {
-        $mission->update(['is_moderated' => !$mission->is_moderated]);
-        $status = $mission->is_moderated ? 'bloquée' : 'débloquée';
-        return ['success' => true, 'message' => "Mission {$status}.", 'data' => $mission, 'code' => 200];
-    }
- 
-    public function deleteMission(Mission $mission): array
-    {
+         if($admin->role->name != 'admin'){
+             return response()->json([
+                    'success' => false,
+                    'message' => 'action non autorisé.',
+                ], 403);
+        }
+
         $this->repository->deleteMission($mission);
-        return ['success' => true, 'message' => 'Mission supprimée.', 'code' => 200];
+        return ['success' => true, 'message' => 'mission est supprimé', 'code' => 200];
     }
-
-
 }

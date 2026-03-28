@@ -28,7 +28,7 @@ class CandidatureService{
 
     public function createCandidature($validated,$user){
         if ($user->role->name !== "freelancer") {
-            return ['success' => false, 'message' => 'action non autorisée. ', 'code' => 403];
+            return ['success' => false, 'message' => 'action non autorisé', 'code' => 403];
         }
         
         $candida = Candidature::where('mission_id',$validated['mission_id'])->where('freelancer_id',$user->freelancer->id)->first();

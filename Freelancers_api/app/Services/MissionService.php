@@ -59,7 +59,7 @@ class MissionService
     public function updateMission($validated, $mission, $user)
     {
         if ($mission->client_id !== $user->client->id) {
-            return ['success'=>false,'message'=>"non autorisée",'code'=>403]; 
+            return ['success'=>false,'message'=>"non autorisé",'code'=>403]; 
         }
 
          if ($mission->status == "en_cours" || $mission->status == "terminee") {
@@ -73,7 +73,7 @@ class MissionService
     public function cancelMission($mission, $user)
     {
         if ($mission->client_id !== $user->client->id) {
-            return ['success'=>false,'message'=>"non autorisée",'code'=>403]; 
+            return ['success'=>false,'message'=>"non autorisé",'code'=>403]; 
         }
 
         if ($mission->status === "en_cours") {

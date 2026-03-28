@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheFreelancer
+class ChekFreelancer
 {
     /**
      * Handle an incoming request.
@@ -15,6 +15,12 @@ class CheFreelancer
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request);
+        if ($request->user()->role->name != 'freelancer') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'action non autorisé',
+                ], 403);
+            }
+            return $next($request);  
     }
 }

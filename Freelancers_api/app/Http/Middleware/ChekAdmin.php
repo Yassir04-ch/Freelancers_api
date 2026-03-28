@@ -15,6 +15,13 @@ class ChekAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request);
+        if ($request->user()->role->name !='admin') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'action non autorisé',
+                ], 403);
+            }
+        return $next($request);  
     }
+        
 }

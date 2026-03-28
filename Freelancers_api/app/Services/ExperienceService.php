@@ -23,7 +23,6 @@ class ExperienceService
 
     public function createExperience($validated, $user)
     {
-
         $data = [
             'name' => $validated['name'],
             'date_debut' => $validated['date_debut'],
