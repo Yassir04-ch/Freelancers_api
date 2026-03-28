@@ -7,8 +7,7 @@ use App\Models\Client;
 use App\Models\Freelancer;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\JsonResponse;
 
  class AuthController extends Controller
