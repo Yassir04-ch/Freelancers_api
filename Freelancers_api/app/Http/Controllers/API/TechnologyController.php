@@ -3,47 +3,47 @@
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Technology;
+use App\Services\TechnologieService;
 use Illuminate\Http\Request;
 
 class TechnologyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+   private $service;
+
+   public function __construct(TechnologieService $service)
+   {
+    $this->service = $service;
+   }
+   
     public function index()
     {
-        //
+    
+        return response()->json([
+            'success' => true,
+            'data'    => $this->service->technologies(),
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+     public function store(Request $request)
     {
-        //
+        $validated = $request->validate(['name' => 'required|string']);
+        $result = $this->service->createTechnology($validated['name']);
+
+        return response()->json([
+            'success' => $result['success'],
+            'message' => $result['message'],
+         ], $result['code']);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Technology $technology)
+     public function destroy(Technology $technology)
     {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Technology $technology)
-    {
-        //
-    }
+        $result = $this->service->deleteTechnology($technology);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Technology $technology)
-    {
-        //
+        return response()->json([
+            'success' => $result['success'],
+            'message' => $result['message'],
+        ], $result['code']);
     }
 }

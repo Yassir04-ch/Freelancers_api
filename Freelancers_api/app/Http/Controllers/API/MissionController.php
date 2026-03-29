@@ -66,4 +66,12 @@ class MissionController extends Controller
             'message' => $result['message'],
         ],$result['code']);
     }
+
+    public function termineeMission(Request $request,Mission $mission){
+        $result = $this->service->termineeMission($mission ,$request->user());
+        return response()->json([
+            'success'=>$result['success'],
+            'message'=>$result['message'],
+        ],$result['code']);
+    }
 }

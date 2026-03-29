@@ -43,13 +43,18 @@ class MissionService
 
         $mission = $this->repository->create($data);
 
+        if (!empty($validated['technologies'])) {
+         $mission->technologies()->sync($validated['technologies']);
+         }
+         $mission->load('technologies');
+
         $freelacers = Freelancer::all();
         foreach($freelacers as $freelancer){
             Notification::create([
               'client_id'=>$user->client->id,
               'freelancer_id'=> $freelancer->id,
               'title'=> 'nouvele mission',
-              'message'=> 'une nouvelle mission a été publiée'.$mission->titre
+              'message'=> 'une nouvelle mission a été publié'.$mission->titre
           ]);
         }
         return $mission;
@@ -66,6 +71,10 @@ class MissionService
             return ['success'=>false,'message'=>"impossible de modifier une mission en cours ou terminee",'code'=>422]; 
          }
 
+          if (!empty($validated['technologies'])) {
+              $mission->technologies()->sync($validated['technologies']);
+           }
+
         $this->repository->update($mission, $validated);
         return ['success'=>true,'message'=> "mission a été modifier avec success",'code'=>200];     
     }
@@ -76,11 +85,25 @@ class MissionService
             return ['success'=>false,'message'=>"non autorisé",'code'=>403]; 
         }
 
-        if ($mission->status === "en_cours") {
+        if ($mission->status === "en_cours" || $mission->status === "terminee") {
             return ['success'=>false,'message'=>"impossible de modifier une mission en cours ou terminee",'code'=>422]; 
         }
 
         $this->repository->update($mission, ['status' => "annulee"]);
-        return ['success'=>true,'message'=>"mission est annulee",'code'=>422]; 
+        return ['success'=>true,'message'=>"mission est annulee",'code'=>200]; 
+    }
+    public function termineeMission($mission,$user)
+    {
+       if ($mission->client_id !== $user->client->id)
+        {
+            return ['success'=>false,'message'=>"non autorisé",'code'=>403]; 
+        }
+          if ($mission->status === "annulee" || $mission->status === "terminee") {
+            return ['success'=>false,'message'=>"impossible de modifier une mission en cours ou terminee",'code'=>422]; 
+        }
+        
+        $this->repository->update($mission,['status'=>"terminee"]);
+        return ['success'=>true,'message'=>"mission est terminee",'code'=>200]; 
+      
     }
 }

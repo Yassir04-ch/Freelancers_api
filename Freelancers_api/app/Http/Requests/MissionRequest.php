@@ -29,6 +29,7 @@ class MissionRequest extends FormRequest
             'budget'      => "required|numeric|min:0",
             'duration'    => "required|integer|min:1",
             'status'      => 'nullable|string',
+            'technologies' => 'nullable|array',
         ];
     }
 }

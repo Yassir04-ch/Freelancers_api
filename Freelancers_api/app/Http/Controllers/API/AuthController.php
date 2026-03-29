@@ -32,13 +32,16 @@ use Illuminate\Http\JsonResponse;
 
             $user->load('role');
            if ($user->role->name == "freelancer") {
-             Freelancer::create([
+              $freelancer = Freelancer::create([
                 'user_id'      => $user->id,
                 'rating'       => 0,
                 'portfolio'    => $validated['portfolio'] ,
                 'price'        => $validated['price'] ,
                 'availability' => 'available',
             ]);
+            if(!empty($validated['technologies'])){
+                $freelancer->technologies()->sync($validated['technologies']);
+            }
         } 
         elseif ($user->role->name == "client") {
             Client::create([

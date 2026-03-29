@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CandidatureController;
 use App\Http\Controllers\Api\ExperienceController;
 use App\Http\Controllers\Api\MissionController;
+use App\Http\Controllers\Api\TechnologyController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -18,6 +19,9 @@ Route::middleware('auth:sanctum')->group(function () {
      Route::get('/candidatures/{candidature}',[CandidatureController::class, 'show']);
  
      Route::get('/experiences/{freelancer}',[ExperienceController::class, 'index']);
+
+    Route::get('/technologies', [TechnologyController::class, 'index']);
+
  }); 
 
  
@@ -29,6 +33,9 @@ Route::middleware(['auth:sanctum','admin'])->group(function(){
     Route::delete('/users/{user}',[AdminController::class, 'deleteUser']);
     Route::get('/missions',[AdminController::class, 'missions']);
     Route::delete('/missions/{mission}',[AdminController::class, 'deleteMission']);
+
+    Route::post('/technologies', [TechnologyController::class, 'store']);
+    Route::delete('/technologies/{technology}', [TechnologyController::class, 'destroy']);
 });
 
 Route::middleware(['auth:sanctum','freelancer'])->group(function(){
@@ -45,8 +52,10 @@ Route::middleware(['auth:sanctum','client'])->group(function(){
     Route::post('/missions',[MissionController::class, 'store']);
     Route::put('/missions/{mission}',[MissionController::class, 'update']);
     Route::delete('/missions/{mission}',[MissionController::class, 'destroy']);
+    Route::delete('/missions/{mission}',[MissionController::class, 'termineeMission']);
 
     Route::put('/candidatures/{candidature}/accept',[CandidatureController::class, 'accept']);
     Route::put('/candidatures/{candidature}/refuse',[CandidatureController::class, 'refuse']);
  
 });
+

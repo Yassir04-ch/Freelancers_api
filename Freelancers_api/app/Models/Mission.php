@@ -26,9 +26,9 @@ class Mission extends Model
     }
  
  
-    public function technology()
+    public function technologies()
     {
-        return $this->belongsToMany(Technology::class);
+        return $this->belongsToMany(Technology::class,'mission_technology');
     }
  
     

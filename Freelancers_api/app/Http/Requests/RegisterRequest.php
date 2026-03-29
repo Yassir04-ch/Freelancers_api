@@ -32,6 +32,7 @@ class RegisterRequest extends FormRequest
             'price'     => "nullable|numeric",
             'entreprise'  => "nullable|string",
             'description' => "nullable|string",
+            'technologies' => 'nullable|array'
         ];
     }
 }
